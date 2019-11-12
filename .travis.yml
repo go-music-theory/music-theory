@@ -6,8 +6,8 @@ go:
 
 install:
   - # Testing
-  - go get github.com/stretchr/testify/assert
-  - go get github.com/stretchr/testify/mock
+  - go get gopkg.in/stretchr/testify.v1/assert
+  - go get gopkg.in/stretchr/testify.v1/mock
   - # Logging
-  - go get github.com/Sirupsen/logrus
+  - go get gopkg.in/Sirupsen/logrus.v1
 

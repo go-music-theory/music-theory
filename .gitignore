@@ -1,5 +1,6 @@
 # IntelliJ
 *.iml
+.idea/
 
 # Go coverage
 *.out
