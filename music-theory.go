@@ -210,12 +210,16 @@ var commands = []cli.Command{
 		Name:        "pitch",
 		Aliases:     []string{"p"},
 		Usage:       "find a note pitch in Hz",
-		Description: "The pitch is note frequency described in Hz. Based on standard conert pitch and twelve-tone equal temperament. As an argument, pass a note in international pitch notation.",
+		Description: "The pitch is note frequency described in Hz. Based on standard concert pitch and twelve-tone equal temperament. As an argument, pass a note in international pitch notation.",
+		Flags: []cli.Flag{
+		    cli.IntFlag{Name: "tuning, t", Value: 440, Usage: "Set the pitch of the root note A 4"},
+	    },
 		Action: func(c *cli.Context) {
 			name := c.Args().First()
 			octave := c.Args().Get(1)
+			tuning := c.Int("tuning")
 			if len(name) > 0 {
-				notePitch, err := pitch.Of(name, octave)
+				notePitch, err := pitch.Of(name, octave, tuning)
 				if err != nil {
 					fmt.Printf("Error occured: %v\n", err)
 				}
