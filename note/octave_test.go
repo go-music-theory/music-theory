@@ -3,12 +3,16 @@ package note
 
 import (
 	"testing"
-	//"gopkg.in/stretchr/testify.v1/assert"
+
+	"gopkg.in/stretchr/testify.v1/assert"
 )
 
-func TestOctave(t *testing.T) {
-	//n := New(C)
-	//assert.Equal(t, n, &Note{
-	//	Semitone: C,
-	//})
+func TestOctaveOf(t *testing.T) {
+	n := OctaveOf("A4")
+	assert.Equal(t, Octave(4), n)
+}
+
+func TestToInt(t *testing.T) {
+	n := OctaveOf("A4")
+	assert.Equal(t, 4, int(n))
 }
