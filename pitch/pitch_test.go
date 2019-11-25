@@ -33,13 +33,13 @@ func TestPitchOfNote(t *testing.T) {
 }
 
 func assertPitchOfClassAndOctave(t *testing.T, expected string, class string, octave string, tuning int) {
-	actual, err := OfClassAndOctave(class, octave)
+	actual, err := OfClassAndOctave(class, octave, tuning)
 	assert.Nil(t, err)
 	assert.Equal(t, expected, actual)
 }
 
 func assertPitchOfNote(t *testing.T, expected string, name string, tuning int) {
-	actual, err := OfNote(name)
+	actual, err := OfNote(name, tuning)
 	assert.Nil(t, err)
 	assert.Equal(t, expected, actual)
 }
