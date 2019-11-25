@@ -26,8 +26,7 @@ func OfClassAndOctave(class string, octaveStr string, tuning int) (string, error
 	return format(calcPitch(root, octave, tuning))
 }
 
-func calcPitch(note note.Class, octave int, tuning) (float64, error) {
-
+func calcPitch(note note.Class, octave int, tuning int) (float64, error) {
 	stepNo := int(note) + octave*12
 	diffFromA4 := abs(A4Num - stepNo)
 	magnitude := math.Pow(math.Pow(2, 1.0/12), float64(diffFromA4))
