@@ -12,7 +12,7 @@ var A4Num = 58 // step no from C0
 func OfNote(name string, tuning int) (string, error) {
 	class := note.ClassNamed(name)
 	octave := note.OctaveOf(name)
-	return format(calcPitch(class, int(octave)))
+	return format(calcPitch(class, int(octave), tuning))
 }
 
 func OfClassAndOctave(class string, octaveStr string, tuning int) (string, error) {
