@@ -644,7 +644,7 @@ var forms = []Form{
 		pos: exp("secundal"),
 		add: FormAdd{
 			I2: 2, // major 2nd
-			I4: 4, // major 2nd interval
+			I4: 4, // major 3rd (secundal stacking)
 		},
 	},
 
@@ -662,7 +662,7 @@ var forms = []Form{
 		pos: exp("quartal"),
 		add: FormAdd{
 			I4: 5,  // perfect 4th
-			I5: 10, // two perfect 4ths
+			I5: 10, // minor 7th (quartal stacking)
 		},
 	},
 
