@@ -17,7 +17,7 @@ The following requirements from awesome-go's [contribution guidelines](https://g
   - scale package: 100%
   - note package: 81.4%
   - chord package: 72.9%
-- ✅ **Public API documentation**: GoDoc available at https://pkg.go.dev/github.com/go-music-theory/music-theory
+- ✅ **Public API documentation**: GoDoc available at https://godoc.org/gopkg.in/music-theory.v0
 - ✅ **Active maintenance**: Project is maintained and functional
 
 ## Proposed Entry
@@ -60,8 +60,8 @@ Add music-theory to Audio and Music section
 This PR adds music-theory to the Audio and Music section.
 
 **Package links:**
-- pkg.go.dev: https://pkg.go.dev/github.com/go-music-theory/music-theory
-- Go Report Card: https://goreportcard.com/report/github.com/go-music-theory/music-theory
+- pkg.go.dev: https://pkg.go.dev/gopkg.in/music-theory.v0
+- Go Report Card: https://goreportcard.com/report/gopkg.in/music-theory.v0
 
 **Coverage:**
 - key package: 100%
