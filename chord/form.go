@@ -19,6 +19,11 @@ type Form struct {
 // FormAdd maps an interval-from-chord-root to a +/1 semitone adjustment
 type FormAdd map[Interval]int
 
+// Special marker values for FormAdd
+const (
+	HarmonicSeventhCents = 969 // Harmonic 7th interval: 969 cents (~9.69 semitones, 31 cents flat of minor 7th)
+)
+
 // FormOmit maps an interval-from-chord-root to omit
 type FormOmit []Interval
 
@@ -249,9 +254,9 @@ var forms = []Form{
 		Name: "Harmonic Seventh",
 		pos:  exp(harmonicExp + nExp + "7"),
 		add: FormAdd{
-			I3: 4,   // major 3rd
-			I5: 7,   // perfect 5th
-			I7: 969, // harmonic 7th (special value: 969 cents, not semitones)
+			I3: 4,                    // major 3rd
+			I5: 7,                    // perfect 5th
+			I7: HarmonicSeventhCents, // harmonic 7th (special: 969 cents, not semitones)
 		},
 	},
 
@@ -600,10 +605,10 @@ func (this *Chord) parseForms(name string) {
 
 func (this *Chord) applyForm(f Form) (toDelete []Interval) {
 	for i, c := range f.add {
-		// Special handling for harmonic seventh (969 cents marker)
-		if c == 969 {
+		// Special handling for harmonic seventh (HarmonicSeventhCents marker)
+		if c == HarmonicSeventhCents {
 			// Harmonic seventh is approximately 969 cents (~9.69 semitones)
-			// We use a custom pitch class note.Bsb for this microtonal interval
+			// Use custom pitch class for this microtonal interval
 			this.Tones[i] = calculateHarmonicSeventh(this.Root)
 		} else {
 			this.Tones[i], _ = this.Root.Step(c)

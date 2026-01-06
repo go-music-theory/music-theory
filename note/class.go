@@ -21,6 +21,8 @@ const (
 	
 	// Microtonal/custom pitches (not part of 12-tone chromatic scale)
 	// Harmonic seventh pitches - approximately 969 cents above their respective roots (31 cents below the minor 7th)
+	// Notation: The '♮7' suffix is a custom notation indicating "natural harmonic 7th" to distinguish
+	// from tempered intervals. Not to be confused with the natural sign (♮) used to cancel accidentals.
 	Ch7  // C harmonic 7th - between A and A# (A super-sharp)
 	Csh7 // C# harmonic 7th - between A# and B
 	Dh7  // D harmonic 7th - between B and C
