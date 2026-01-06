@@ -17,7 +17,7 @@ The following requirements from awesome-go's [contribution guidelines](https://g
   - scale package: 100%
   - note package: 81.4%
   - chord package: 72.9%
-- ✅ **Public API documentation**: GoDoc available at https://godoc.org/gopkg.in/music-theory.v0
+- ✅ **Public API documentation**: GoDoc available at https://pkg.go.dev/gopkg.in/music-theory.v0
 - ✅ **Active maintenance**: Project is maintained and functional
 
 ## Proposed Entry
@@ -75,6 +75,6 @@ music-theory is a Go library for music theory models including notes, keys, chor
 
 ## Additional Notes
 
-- The repository already has an "Awesome" badge in the README (line 4), indicating prior awareness of the awesome lists
+- The repository already has an "Awesome" badge in the README, indicating prior awareness of the awesome lists
 - The project has been active since 2016 and has over 5 years of history
 - The library provides unique functionality for music theory in Go that complements other audio libraries in the awesome-go list
