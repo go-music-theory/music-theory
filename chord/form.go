@@ -718,6 +718,10 @@ func (this *Chord) parseForms(name string) {
 	for _, t := range toDelete {
 		delete(this.Tones, t)
 	}
+	
+	// After processing all forms, apply sharp/flat interval modifiers
+	this.applyIntervalModifiers(name)
+	
 	return
 }
 
@@ -736,6 +740,158 @@ func (this *Chord) applyForm(f Form) (toDelete []Interval) {
 		toDelete = append(toDelete, t)
 	}
 	return
+}
+
+// applyIntervalModifiers parses and applies sharp/flat modifiers to intervals
+// Handles patterns like #4, ♭6, b9, #11, etc.
+// Only applies modifiers that aren't already handled by existing forms
+func (this *Chord) applyIntervalModifiers(name string) {
+	// Regular expression to match sharp or flat followed by an interval number
+	// We match # or ♭ symbols (not spelled out words, as those are handled by forms)
+	sharpIntervalExp := regexp.MustCompile(`#\s*(\d+)`)
+	flatIntervalExp := regexp.MustCompile(`(♭|b)\s*(\d+)`)
+	
+	// These intervals are already handled by existing forms when they have flat/sharp modifiers
+	// Flat Fifth handles: ♭5, b5, flat 5, f5
+	// Sharp Ninth handles: #9, sharp 9, s9
+	// Add Seventh handles: 7 (and this includes when preceded by b, as in b7)
+	// So we should NOT process these if they match the form patterns
+	
+	// Check if Flat Fifth form would match (handles flat 5)
+	flatFifthPattern := regexp.MustCompile(`(f|flat|b|♭)[. ]*5`)
+	skipFlatFifth := flatFifthPattern.MatchString(name)
+	
+	// Check if Sharp Ninth form would match (handles sharp 9)
+	sharpNinthPattern := regexp.MustCompile(`(#|s|sharp)[. ]*9`)
+	skipSharpNinth := sharpNinthPattern.MatchString(name)
+	
+	// Check if b7 pattern exists (this is standard notation for dominant 7th, same as just "7")
+	// The Add Seventh form matches "7" which will match the "7" in "b7", so we shouldn't process "b7"
+	flatSeventhPattern := regexp.MustCompile(`(b|♭)\s*7`)
+	skipFlatSeventh := flatSeventhPattern.MatchString(name)
+	
+	// Find all sharp intervals
+	sharpMatches := sharpIntervalExp.FindAllStringSubmatch(name, -1)
+	for _, match := range sharpMatches {
+		if len(match) >= 2 {
+			intervalNum := parseIntervalNumber(match[1])
+			if intervalNum > 0 {
+				if intervalNum == I9 && skipSharpNinth {
+					continue // Skip #9 as it's handled by Sharp Ninth form
+				}
+				this.modifyInterval(intervalNum, 1) // +1 semitone
+			}
+		}
+	}
+	
+	// Find all flat intervals  
+	flatMatches := flatIntervalExp.FindAllStringSubmatch(name, -1)
+	for _, match := range flatMatches {
+		if len(match) >= 3 {
+			intervalNum := parseIntervalNumber(match[2])
+			if intervalNum > 0 {
+				if intervalNum == I5 && skipFlatFifth {
+					continue // Skip ♭5/b5 as it's handled by Flat Fifth form
+				}
+				if intervalNum == I7 && skipFlatSeventh {
+					continue // Skip b7/♭7 as it's standard notation for dominant 7th
+				}
+				this.modifyInterval(intervalNum, -1) // -1 semitone
+			}
+		}
+	}
+}
+
+// parseIntervalNumber converts a string to an Interval
+func parseIntervalNumber(s string) Interval {
+	switch s {
+	case "1":
+		return I1
+	case "2":
+		return I2
+	case "3":
+		return I3
+	case "4":
+		return I4
+	case "5":
+		return I5
+	case "6":
+		return I6
+	case "7":
+		return I7
+	case "8":
+		return I8
+	case "9":
+		return I9
+	case "10":
+		return I10
+	case "11":
+		return I11
+	case "12":
+		return I12
+	case "13":
+		return I13
+	case "14":
+		return I14
+	case "15":
+		return I15
+	case "16":
+		return I16
+	default:
+		return 0
+	}
+}
+
+// modifyInterval adjusts an interval by the specified number of semitones
+// If the interval doesn't exist yet, it calculates it from the default value
+func (this *Chord) modifyInterval(interval Interval, semitoneDelta int) {
+	if existingTone, exists := this.Tones[interval]; exists {
+		// Modify existing interval
+		this.Tones[interval], _ = existingTone.Step(semitoneDelta)
+	} else {
+		// Add new interval with modification from default
+		defaultSemitones := getDefaultSemitones(interval)
+		this.Tones[interval], _ = this.Root.Step(defaultSemitones + semitoneDelta)
+	}
+}
+
+// getDefaultSemitones returns the default semitone distance for each interval
+// These are the "natural" intervals from the root
+func getDefaultSemitones(interval Interval) int {
+	switch interval {
+	case I1:
+		return 0 // root/unison
+	case I2:
+		return 2 // major 2nd
+	case I3:
+		return 4 // major 3rd
+	case I4:
+		return 5 // perfect 4th
+	case I5:
+		return 7 // perfect 5th
+	case I6:
+		return 9 // major 6th
+	case I7:
+		return 11 // major 7th
+	case I8:
+		return 12 // octave
+	case I9:
+		return 14 // major 9th
+	case I10:
+		return 16 // major 10th
+	case I11:
+		return 17 // perfect 11th
+	case I12:
+		return 19 // perfect 12th
+	case I13:
+		return 21 // major 13th
+	case I14:
+		return 23 // major 14th
+	case I15: // Note: I16 has the same value as I15
+		return 24 // double octave
+	default:
+		return 0
+	}
 }
 
 // calculateHarmonicSeventh returns the harmonic seventh pitch class for any root
