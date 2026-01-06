@@ -9,8 +9,8 @@ import (
 	"gopkg.in/stretchr/testify.v1/assert"
 	"gopkg.in/yaml.v2"
 
-	"gopkg.in/music-theory.v0/key"
-	"gopkg.in/music-theory.v0/note"
+	"github.com/go-music-theory/music-theory/key"
+	"github.com/go-music-theory/music-theory/note"
 )
 
 func TestChordExpectations(t *testing.T) {

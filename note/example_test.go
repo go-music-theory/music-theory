@@ -3,7 +3,7 @@ package note_test
 import (
 	"fmt"
 
-	"gopkg.in/music-theory.v0/note"
+	"github.com/go-music-theory/music-theory/note"
 )
 
 // Example demonstrates creating a note by name

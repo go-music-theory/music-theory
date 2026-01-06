@@ -3,8 +3,8 @@ package scale_test
 import (
 	"fmt"
 
-	"gopkg.in/music-theory.v0/note"
-	"gopkg.in/music-theory.v0/scale"
+	"github.com/go-music-theory/music-theory/note"
+	"github.com/go-music-theory/music-theory/scale"
 )
 
 // Example demonstrates creating a scale by name

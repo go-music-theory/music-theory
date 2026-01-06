@@ -3,8 +3,8 @@ package chord_test
 import (
 	"fmt"
 
-	"gopkg.in/music-theory.v0/chord"
-	"gopkg.in/music-theory.v0/note"
+	"github.com/go-music-theory/music-theory/chord"
+	"github.com/go-music-theory/music-theory/note"
 )
 
 // Example demonstrates creating a chord by name

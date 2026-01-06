@@ -4,6 +4,8 @@ package chord
 import (
 	//"log"
 	"regexp"
+	
+	"github.com/go-music-theory/music-theory/note"
 )
 
 // Form is identified by positive/negative regular expressions, and then adds/removes pitch classes by interval from the root of the chord.
@@ -16,6 +18,11 @@ type Form struct {
 
 // FormAdd maps an interval-from-chord-root to a +/1 semitone adjustment
 type FormAdd map[Interval]int
+
+// Special marker values for FormAdd
+const (
+	HarmonicSeventhCents = 969 // Harmonic 7th interval: 969 cents (~9.69 semitones, 31 cents flat of minor 7th)
+)
 
 // FormOmit maps an interval-from-chord-root to omit
 type FormOmit []Interval
@@ -269,8 +276,9 @@ var forms = []Form{
 		Name: "Harmonic Seventh",
 		pos:  exp(harmonicExp + nExp + "7"),
 		add: FormAdd{
-			I3: 4, // major 3rd
-			I5: 7, // perfect 5th
+			I3: 4,                    // major 3rd
+			I5: 7,                    // perfect 5th
+			I7: HarmonicSeventhCents, // harmonic 7th (special: 969 cents, not semitones)
 		},
 	},
 
@@ -715,10 +723,53 @@ func (this *Chord) parseForms(name string) {
 
 func (this *Chord) applyForm(f Form) (toDelete []Interval) {
 	for i, c := range f.add {
-		this.Tones[i], _ = this.Root.Step(c)
+		// Special handling for harmonic seventh (HarmonicSeventhCents marker)
+		if c == HarmonicSeventhCents {
+			// Harmonic seventh is approximately 969 cents (~9.69 semitones)
+			// Use custom pitch class for this microtonal interval
+			this.Tones[i] = calculateHarmonicSeventh(this.Root)
+		} else {
+			this.Tones[i], _ = this.Root.Step(c)
+		}
 	}
 	for _, t := range f.omit {
 		toDelete = append(toDelete, t)
 	}
 	return
+}
+
+// calculateHarmonicSeventh returns the harmonic seventh pitch class for any root
+// The harmonic seventh is approximately 969 cents above the root (31 cents flat of minor 7th)
+func calculateHarmonicSeventh(root note.Class) note.Class {
+	// Map each root to its corresponding harmonic seventh pitch class
+	switch root {
+	case note.C:
+		return note.Ch7
+	case note.Cs:
+		return note.Csh7
+	case note.D:
+		return note.Dh7
+	case note.Ds:
+		return note.Dsh7
+	case note.E:
+		return note.Eh7
+	case note.F:
+		return note.Fh7
+	case note.Fs:
+		return note.Fsh7
+	case note.G:
+		return note.Gh7
+	case note.Gs:
+		return note.Gsh7
+	case note.A:
+		return note.Ah7
+	case note.As:
+		return note.Ash7
+	case note.B:
+		return note.Bh7
+	default:
+		// Fallback to closest chromatic approximation (10 semitones)
+		result, _ := root.Step(10)
+		return result
+	}
 }

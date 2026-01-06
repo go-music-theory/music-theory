@@ -3,7 +3,7 @@ package key_test
 import (
 	"fmt"
 
-	"gopkg.in/music-theory.v0/key"
+	"github.com/go-music-theory/music-theory/key"
 )
 
 // Example demonstrates creating a key by name
