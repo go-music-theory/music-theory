@@ -226,6 +226,19 @@ var forms = []Form{
 	},
 
 	Form{
+		Name: "Altered Dominant",
+		pos:  exp("^" + alteredExp + "([^a-z]|$)"),
+		add: FormAdd{
+			I3:  4,  // major 3rd
+			I5:  6,  // flat 5th (diminished 5th)
+			I6:  8,  // sharp 5th (augmented 5th / flat 13th)
+			I7:  10, // dominant 7th
+			I9:  13, // flat 9th
+			I10: 15, // sharp 9th
+		},
+	},
+
+	Form{
 		Name: "Major Seventh",
 		pos:  exp(majorExp + nExp + "7"),
 		add: FormAdd{
