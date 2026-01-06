@@ -13,6 +13,8 @@
 package chord
 
 import (
+	"strings"
+
 	"github.com/go-music-theory/music-theory/note"
 )
 
@@ -38,9 +40,20 @@ func (this *Chord) Notes() (notes []*note.Note) {
 		notes = append(notes, note.OfClass(this.Bass))
 	}
 	
+	// Check if bass note exists in chord tones to avoid duplication
+	bassInTones := false
+	if this.Bass != note.Nil {
+		for _, class := range this.Tones {
+			if class == this.Bass {
+				bassInTones = true
+				break
+			}
+		}
+	}
+	
 	forAllIn(this.Tones, func(class note.Class) {
-		// Avoid duplicating the bass note if it's already in the chord tones
-		if this.Bass == note.Nil || class != this.Bass {
+		// Skip bass note if it's already added and exists in tones
+		if !bassInTones || class != this.Bass {
 			notes = append(notes, note.OfClass(class))
 		}
 	})
@@ -78,13 +91,7 @@ func (this *Chord) parse(name string) {
 	this.AdjSymbol = note.AdjSymbolOf(name)
 
 	// Check for slash chord notation (e.g., "C/E" or "Cmaj7/B")
-	slashIndex := -1
-	for i, char := range name {
-		if char == '/' {
-			slashIndex = i
-			break
-		}
-	}
+	slashIndex := strings.Index(name, "/")
 
 	if slashIndex != -1 {
 		// Parse bass note from slash notation
