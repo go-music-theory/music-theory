@@ -32,6 +32,6 @@ func specFrom(c Chord) specChord {
 
 type specChord struct {
 	Root  string
-	Bass  string         `yaml:"bass,omitempty"`
+	Bass  string `yaml:"bass,omitempty"`
 	Tones map[int]string
 }

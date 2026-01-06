@@ -182,9 +182,9 @@ func TestSlashChords(t *testing.T) {
 	g7 := Of("G7/B")
 	assert.Equal(t, note.G, g7.Root)
 	assert.Equal(t, note.B, g7.Bass)
-	assert.Equal(t, note.B, g7.Tones[I3])  // major 3rd
-	assert.Equal(t, note.D, g7.Tones[I5])  // perfect 5th
-	assert.Equal(t, note.F, g7.Tones[I7])  // dominant 7th
+	assert.Equal(t, note.B, g7.Tones[I3]) // major 3rd
+	assert.Equal(t, note.D, g7.Tones[I5]) // perfect 5th
+	assert.Equal(t, note.F, g7.Tones[I7]) // dominant 7th
 
 	// Test Notes() method includes bass note
 	notes := c.Notes()

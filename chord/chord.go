@@ -38,7 +38,7 @@ func (this *Chord) Notes() (notes []*note.Note) {
 	// If there's a bass note (slash chord), add it first
 	if this.Bass != note.Nil {
 		notes = append(notes, note.OfClass(this.Bass))
-		
+
 		// Check if bass note exists in chord tones to avoid duplication
 		bassInTones := false
 		for _, class := range this.Tones {
@@ -47,7 +47,7 @@ func (this *Chord) Notes() (notes []*note.Note) {
 				break
 			}
 		}
-		
+
 		// Add chord tones, skipping the bass note if it was already added
 		forAllIn(this.Tones, func(class note.Class) {
 			if bassInTones && class == this.Bass {
@@ -71,12 +71,12 @@ func (this Chord) Transpose(semitones int) Chord {
 		Tones:     make(map[Interval]note.Class),
 	}
 	transposedChord.Root, _ = this.Root.Step(semitones)
-	
+
 	// Transpose bass note if it exists
 	if this.Bass != note.Nil {
 		transposedChord.Bass, _ = this.Bass.Step(semitones)
 	}
-	
+
 	for interval, class := range this.Tones {
 		transposedChord.Tones[interval], _ = class.Step(semitones)
 	}
@@ -101,7 +101,7 @@ func (this *Chord) parse(name string) {
 		// Parse bass note from slash notation
 		bassString := name[slashIndex+1:]
 		this.Bass, _ = note.RootAndRemaining(bassString)
-		
+
 		// Parse the chord part before the slash
 		name = name[:slashIndex]
 	}

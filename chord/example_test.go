@@ -72,7 +72,7 @@ func ExampleOf_slashChord() {
 	c := chord.Of("C/E")
 	fmt.Printf("Root: %s\n", c.Root.String(c.AdjSymbol))
 	fmt.Printf("Bass: %s\n", c.Bass.String(c.AdjSymbol))
-	
+
 	notes := c.Notes()
 	fmt.Printf("Notes (bass first): ")
 	for i, n := range notes {
@@ -93,7 +93,7 @@ func ExampleOf_slashChord() {
 func ExampleChord_Transpose_slashChord() {
 	// Create a slash chord
 	c := chord.Of("C/E")
-	
+
 	// Transpose up by 2 semitones (C/E -> D/F#)
 	d := c.Transpose(2)
 	fmt.Printf("Original: %s/%s\n", c.Root.String(c.AdjSymbol), c.Bass.String(c.AdjSymbol))
