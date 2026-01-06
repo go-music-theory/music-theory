@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - main
-      - master
+      - main
   pull_request:
     branches:
       - main
-      - master
+      - main
 
 jobs:
   test:
@@ -19,20 +19,20 @@ jobs:
     strategy:
       matrix:
         go-version: ['1.20', '1.21', '1.22']
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
           go-version: ${{ matrix.go-version }}
-      
+
       - name: Install dependencies
         run: |
           go get gopkg.in/stretchr/testify.v1/assert
           go get -v -t ./...
-      
+
       - name: Run tests
         run: go test -v ./...
