@@ -21,15 +21,15 @@ func ExampleOf() {
 	// Major key
 	c := key.Of("C")
 	fmt.Printf("%s %s\n", c.Root.String(c.AdjSymbol), c.Mode)
-	
+
 	// Minor key
 	cm := key.Of("Cm")
 	fmt.Printf("%s %s\n", cm.Root.String(cm.AdjSymbol), cm.Mode)
-	
+
 	// Key with flats
 	db := key.Of("Db")
 	fmt.Printf("%s %s\n", db.Root.String(db.AdjSymbol), db.Mode)
-	
+
 	// Output:
 	// C Major
 	// C Minor
@@ -40,10 +40,10 @@ func ExampleOf() {
 func ExampleKey_RelativeMinor() {
 	c := key.Of("C")
 	rel := c.RelativeMinor()
-	
+
 	fmt.Printf("%s %s -> %s %s\n",
 		c.Root.String(c.AdjSymbol), c.Mode,
 		rel.Root.String(rel.AdjSymbol), rel.Mode)
-	
+
 	// Output: C Major -> A Minor
 }

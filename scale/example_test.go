@@ -22,15 +22,15 @@ func ExampleOf() {
 	// Major scale
 	cmaj := scale.Of("C major")
 	fmt.Printf("%s major: %v tones\n", cmaj.Root.String(cmaj.AdjSymbol), len(cmaj.Tones))
-	
+
 	// Minor scale
 	cmin := scale.Of("C minor")
 	fmt.Printf("%s minor: %v tones\n", cmin.Root.String(cmin.AdjSymbol), len(cmin.Tones))
-	
+
 	// Augmented scale
 	caug := scale.Of("C aug")
 	fmt.Printf("%s augmented: %v tones\n", caug.Root.String(caug.AdjSymbol), len(caug.Tones))
-	
+
 	// Output:
 	// C major: 7 tones
 	// C minor: 7 tones
@@ -41,7 +41,7 @@ func ExampleOf() {
 func ExampleScale_Notes() {
 	s := scale.Of("C major")
 	notes := s.Notes()
-	
+
 	for i, n := range notes {
 		if i > 0 {
 			fmt.Print(", ")
@@ -49,6 +49,6 @@ func ExampleScale_Notes() {
 		fmt.Print(n.Class.String(note.Sharp))
 	}
 	fmt.Println()
-	
+
 	// Output: C, D, E, F, G, A, B
 }

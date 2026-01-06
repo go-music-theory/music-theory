@@ -17,10 +17,10 @@ func Example() {
 func ExampleNamed() {
 	c := note.Named("C")
 	fmt.Println(c.Class.String(note.Sharp))
-	
+
 	ds := note.Named("D#")
 	fmt.Println(ds.Class.String(note.Sharp))
-	
+
 	// Output:
 	// C
 	// D#
@@ -30,7 +30,7 @@ func ExampleNamed() {
 func ExampleOfClass() {
 	c := note.OfClass(note.C)
 	fmt.Println(c.Class.String(note.Sharp))
-	
+
 	// Output: C
 }
 
@@ -38,7 +38,7 @@ func ExampleOfClass() {
 func ExampleClassNamed() {
 	c := note.ClassNamed("C")
 	fmt.Println(c.String(note.Sharp))
-	
+
 	// Output: C
 }
 
@@ -47,10 +47,10 @@ func ExampleClass_String() {
 	// C# as sharp
 	cs := note.Cs
 	fmt.Println(cs.String(note.Sharp))
-	
+
 	// C# as flat (Db)
 	fmt.Println(cs.String(note.Flat))
-	
+
 	// Output:
 	// C#
 	// Db
