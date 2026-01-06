@@ -2,7 +2,7 @@ OS          := $(shell go env GOOS)
 ARCH        := $(shell go env GOARCH)
 
 GO          := $(GOENV) go
-GOBUILD     := GOOS=$(OS) GOARCH=$(ARCH) $(GO) build -i
+GOBUILD     := GOOS=$(OS) GOARCH=$(ARCH) $(GO) build
 
 TARGET_DIR  := ./target
 INSTALL_PREFIX=/usr/local
