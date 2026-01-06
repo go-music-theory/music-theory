@@ -38,25 +38,29 @@ func (this *Chord) Notes() (notes []*note.Note) {
 	// If there's a bass note (slash chord), add it first
 	if this.Bass != note.Nil {
 		notes = append(notes, note.OfClass(this.Bass))
-	}
-	
-	// Check if bass note exists in chord tones to avoid duplication
-	bassInTones := false
-	if this.Bass != note.Nil {
+		
+		// Check if bass note exists in chord tones to avoid duplication
+		bassInTones := false
 		for _, class := range this.Tones {
 			if class == this.Bass {
 				bassInTones = true
 				break
 			}
 		}
-	}
-	
-	forAllIn(this.Tones, func(class note.Class) {
-		// Skip bass note if it's already added and exists in tones
-		if !bassInTones || class != this.Bass {
+		
+		// Add chord tones, skipping the bass note if it was already added
+		forAllIn(this.Tones, func(class note.Class) {
+			if bassInTones && class == this.Bass {
+				return // Skip - bass note already added
+			}
 			notes = append(notes, note.OfClass(class))
-		}
-	})
+		})
+	} else {
+		// No bass note - add all chord tones normally
+		forAllIn(this.Tones, func(class note.Class) {
+			notes = append(notes, note.OfClass(class))
+		})
+	}
 	return
 }
 
