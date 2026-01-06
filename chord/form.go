@@ -222,7 +222,7 @@ var forms = []Form{
 		Name: "Diminished Major Seventh",
 		pos:  exp(diminishedExp + nExp + majorExp + nExp + "7"),
 		add:  FormAdd{
-		// TODO
+			// TODO
 		},
 	},
 
@@ -230,7 +230,7 @@ var forms = []Form{
 		Name: "Augmented Major Seventh",
 		pos:  exp(augmentedExp + nExp + majorExp + nExp + "7"),
 		add:  FormAdd{
-		// TODO
+			// TODO
 		},
 	},
 
@@ -238,7 +238,7 @@ var forms = []Form{
 		Name: "Augmented Minor Seventh",
 		pos:  exp(augmentedExp + nExp + minorExp + nExp + "7"),
 		add:  FormAdd{
-		// TODO
+			// TODO
 		},
 		omit: FormOmit{},
 	},
