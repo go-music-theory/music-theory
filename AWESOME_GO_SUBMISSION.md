@@ -30,7 +30,7 @@ The following entry should be added to the **Audio and Music** section in alphab
 
 ## Current Audio and Music Section
 
-Based on the current awesome-go list, this entry should be inserted alphabetically between "minimp3" and "Oto".
+The entry should be added to the "Audio and Music" section in alphabetical order. As of January 2026, it would be positioned between "minimp3" and "Oto", but verify the current list when submitting.
 
 ## Submission Steps
 
