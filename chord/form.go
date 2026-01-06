@@ -60,6 +60,15 @@ var (
 	alteredExp     = "alt"
 )
 
+// Regular expressions for interval modifiers (compiled once at package level)
+var (
+	sharpIntervalExp  = regexp.MustCompile(`#\s*(\d+)`)
+	flatIntervalExp   = regexp.MustCompile(`(♭|b)\s*(\d+)`)
+	flatFifthPattern  = regexp.MustCompile(`(f|flat|b|♭)[. ]*5`)
+	sharpNinthPattern = regexp.MustCompile(`(#|s|sharp)[. ]*9`)
+	flatSeventhPattern = regexp.MustCompile(`(b|♭)\s*7`)
+)
+
 // forms is an ordered set of rules to match, and corresponding chord intervals to setup.
 var forms = []Form{
 
@@ -746,28 +755,15 @@ func (this *Chord) applyForm(f Form) (toDelete []Interval) {
 // Handles patterns like #4, ♭6, b9, #11, etc.
 // Only applies modifiers that aren't already handled by existing forms
 func (this *Chord) applyIntervalModifiers(name string) {
-	// Regular expression to match sharp or flat followed by an interval number
-	// We match # or ♭ symbols (not spelled out words, as those are handled by forms)
-	sharpIntervalExp := regexp.MustCompile(`#\s*(\d+)`)
-	flatIntervalExp := regexp.MustCompile(`(♭|b)\s*(\d+)`)
-	
 	// These intervals are already handled by existing forms when they have flat/sharp modifiers
 	// Flat Fifth handles: ♭5, b5, flat 5, f5
 	// Sharp Ninth handles: #9, sharp 9, s9
 	// Add Seventh handles: 7 (and this includes when preceded by b, as in b7)
 	// So we should NOT process these if they match the form patterns
 	
-	// Check if Flat Fifth form would match (handles flat 5)
-	flatFifthPattern := regexp.MustCompile(`(f|flat|b|♭)[. ]*5`)
+	// Check if patterns that existing forms handle are present
 	skipFlatFifth := flatFifthPattern.MatchString(name)
-	
-	// Check if Sharp Ninth form would match (handles sharp 9)
-	sharpNinthPattern := regexp.MustCompile(`(#|s|sharp)[. ]*9`)
 	skipSharpNinth := sharpNinthPattern.MatchString(name)
-	
-	// Check if b7 pattern exists (this is standard notation for dominant 7th, same as just "7")
-	// The Add Seventh form matches "7" which will match the "7" in "b7", so we shouldn't process "b7"
-	flatSeventhPattern := regexp.MustCompile(`(b|♭)\s*7`)
 	skipFlatSeventh := flatSeventhPattern.MatchString(name)
 	
 	// Find all sharp intervals
