@@ -121,9 +121,9 @@ import (
 
 	"gopkg.in/urfave/cli.v1"
 
-	"gopkg.in/music-theory.v0/chord"
-	"gopkg.in/music-theory.v0/key"
-	"gopkg.in/music-theory.v0/scale"
+	"github.com/go-music-theory/music-theory/chord"
+	"github.com/go-music-theory/music-theory/key"
+	"github.com/go-music-theory/music-theory/scale"
 )
 
 func main() {
