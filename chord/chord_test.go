@@ -3,11 +3,11 @@ package chord
 
 import (
 	"fmt"
-	"testing"
 	"io/ioutil"
+	"testing"
 
-	"gopkg.in/yaml.v2"
 	"gopkg.in/stretchr/testify.v1/assert"
+	"gopkg.in/yaml.v2"
 
 	"gopkg.in/music-theory.v0/key"
 	"gopkg.in/music-theory.v0/note"

@@ -2,7 +2,7 @@
 //
 // https://en.wikipedia.org/wiki/Musical_note
 //
-// Credit
+// # Credit
 //
 // Charney Kaye
 // <hi@charneykaye.com>
@@ -10,7 +10,6 @@
 //
 // XJ Music
 // https://xj.io
-//
 package note
 
 // Note models a musical note
