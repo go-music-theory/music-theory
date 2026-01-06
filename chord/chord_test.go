@@ -145,6 +145,77 @@ func TestSpecificChords(t *testing.T) {
 	assert.Equal(t, note.As, c2.Tones[I7]) // minor 7th
 }
 
+func TestSlashChords(t *testing.T) {
+	// Test basic slash chord C/E (C major with E in bass)
+	c := Of("C/E")
+	assert.Equal(t, note.C, c.Root)
+	assert.Equal(t, note.E, c.Bass)
+	assert.Equal(t, note.E, c.Tones[I3]) // major 3rd
+	assert.Equal(t, note.G, c.Tones[I5]) // perfect 5th
+
+	// Test slash chord with minor chord Cm/G
+	cm := Of("Cm/G")
+	assert.Equal(t, note.C, cm.Root)
+	assert.Equal(t, note.G, cm.Bass)
+	assert.Equal(t, note.Ds, cm.Tones[I3]) // minor 3rd (Eb/D#)
+	assert.Equal(t, note.G, cm.Tones[I5])  // perfect 5th
+
+	// Test slash chord with 7th chord Cmaj7/G
+	cmaj7 := Of("Cmaj7/G")
+	assert.Equal(t, note.C, cmaj7.Root)
+	assert.Equal(t, note.G, cmaj7.Bass)
+	assert.Equal(t, note.E, cmaj7.Tones[I3]) // major 3rd
+	assert.Equal(t, note.G, cmaj7.Tones[I5]) // perfect 5th
+	assert.Equal(t, note.B, cmaj7.Tones[I7]) // major 7th
+
+	// Test slash chord with sharp bass note C/F#
+	cfs := Of("C/F#")
+	assert.Equal(t, note.C, cfs.Root)
+	assert.Equal(t, note.Fs, cfs.Bass)
+
+	// Test slash chord with flat bass note D/Bb
+	dbb := Of("D/Bb")
+	assert.Equal(t, note.D, dbb.Root)
+	assert.Equal(t, note.As, dbb.Bass)
+
+	// Test slash chord with dominant 7th G7/B
+	g7 := Of("G7/B")
+	assert.Equal(t, note.G, g7.Root)
+	assert.Equal(t, note.B, g7.Bass)
+	assert.Equal(t, note.B, g7.Tones[I3])  // major 3rd
+	assert.Equal(t, note.D, g7.Tones[I5])  // perfect 5th
+	assert.Equal(t, note.F, g7.Tones[I7])  // dominant 7th
+
+	// Test Notes() method includes bass note
+	notes := c.Notes()
+	assert.True(t, len(notes) >= 3)
+	// Bass note should be first
+	assert.Equal(t, note.E, notes[0].Class)
+}
+
+func TestSlashChordTranspose(t *testing.T) {
+	// Test transposing a slash chord
+	c := Of("C/E")
+	assert.Equal(t, note.C, c.Root)
+	assert.Equal(t, note.E, c.Bass)
+
+	// Transpose up 2 semitones (C -> D, E -> F#)
+	d := c.Transpose(2)
+	assert.Equal(t, note.D, d.Root)
+	assert.Equal(t, note.Fs, d.Bass)
+	assert.Equal(t, note.Fs, d.Tones[I3]) // major 3rd (F#)
+	assert.Equal(t, note.A, d.Tones[I5])  // perfect 5th (A)
+}
+
+func TestSlashChordWithoutBass(t *testing.T) {
+	// Test that regular chords still work without bass
+	c := Of("Cmaj7")
+	assert.Equal(t, note.C, c.Root)
+	assert.Equal(t, note.Nil, c.Bass) // No bass note
+	assert.Equal(t, note.E, c.Tones[I3])
+	assert.Equal(t, note.B, c.Tones[I7])
+}
+
 //
 // Private
 //
