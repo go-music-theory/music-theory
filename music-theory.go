@@ -4,107 +4,107 @@
 //
 // Build and install `music-theory` to your machine
 //
-//     make install
+//	make install
 //
 // Determine a Chord
 //
-//     $ music-theory chord "Cm nondominant -5 679"
+//	$ music-theory chord "Cm nondominant -5 679"
 //
-//     root: C
-//     tones:
-//       3: D#
-//       6: A
-//       7: A#
-//       9: D
+//	root: C
+//	tones:
+//	  3: D#
+//	  6: A
+//	  7: A#
+//	  9: D
 //
 // List known chord-building rules
 //
-//     $ music-theory chords
+//	$ music-theory chords
 //
-//     - Basic
-//     - Nondominant
-//     - Major Triad
-//     - Minor Triad
-//     - Augmented Triad
-//     - Diminished Triad
-//     - Suspended Triad
-//     - Omit Fifth
-//     - Flat Fifth
-//     - Add Sixth
-//     - Augmented Sixth
-//     - Omit Sixth
-//     - Add Seventh
-//     - Dominant Seventh
-//     - Major Seventh
-//     - Minor Seventh
-//     - Diminished Seventh
-//     - Half Diminished Seventh
-//     - Diminished Major Seventh
-//     - Augmented Major Seventh
-//     - Augmented Minor Seventh
-//     - Harmonic Seventh
-//     - Omit Seventh
-//     - Add Ninth
-//     - Dominant Ninth
-//     - Major Ninth
-//     - Minor Ninth
-//     - Sharp Ninth
-//     - Omit Ninth
-//     - Add Eleventh
-//     - Dominant Eleventh
-//     - Major Eleventh
-//     - Minor Eleventh
-//     - Omit Eleventh
-//     - Add Thirteenth
-//     - Dominant Thirteenth
-//     - Major Thirteenth
-//     - Minor Thirteenth
+//	- Basic
+//	- Nondominant
+//	- Major Triad
+//	- Minor Triad
+//	- Augmented Triad
+//	- Diminished Triad
+//	- Suspended Triad
+//	- Omit Fifth
+//	- Flat Fifth
+//	- Add Sixth
+//	- Augmented Sixth
+//	- Omit Sixth
+//	- Add Seventh
+//	- Dominant Seventh
+//	- Major Seventh
+//	- Minor Seventh
+//	- Diminished Seventh
+//	- Half Diminished Seventh
+//	- Diminished Major Seventh
+//	- Augmented Major Seventh
+//	- Augmented Minor Seventh
+//	- Harmonic Seventh
+//	- Omit Seventh
+//	- Add Ninth
+//	- Dominant Ninth
+//	- Major Ninth
+//	- Minor Ninth
+//	- Sharp Ninth
+//	- Omit Ninth
+//	- Add Eleventh
+//	- Dominant Eleventh
+//	- Major Eleventh
+//	- Minor Eleventh
+//	- Omit Eleventh
+//	- Add Thirteenth
+//	- Dominant Thirteenth
+//	- Major Thirteenth
+//	- Minor Thirteenth
 //
 // Determine a Scale
 //
-//     $ music-theory scale "C aug"
+//	$ music-theory scale "C aug"
 //
-//     root: C
-//     tones:
-//     1: C
-//     2: D#
-//     3: E
-//     4: G
-//     5: G#
-//     6: B
+//	root: C
+//	tones:
+//	1: C
+//	2: D#
+//	3: E
+//	4: G
+//	5: G#
+//	6: B
 //
 // List known scale-building rules
 //
-//     $ music-theory scales
+//	$ music-theory scales
 //
-//     - Default (Major)
-//     - Minor
-//     - Major
-//     - Natural Minor
-//     - Diminished
-//     - Augmented
-//     - Melodic Minor Ascend
-//     - Melodic Minor Descend
-//     - Harmonic Minor
-//     - Ionian
-//     - Dorian
-//     - Phrygian
-//     - Lydian
-//     - Mixolydian
-//     - Aeolian
-//     - Locrian
+//	- Default (Major)
+//	- Minor
+//	- Major
+//	- Natural Minor
+//	- Diminished
+//	- Augmented
+//	- Melodic Minor Ascend
+//	- Melodic Minor Descend
+//	- Harmonic Minor
+//	- Ionian
+//	- Dorian
+//	- Phrygian
+//	- Lydian
+//	- Mixolydian
+//	- Aeolian
+//	- Locrian
 //
 // Determine a key
 //
-//    $ music-theory key Db
+//	$ music-theory key Db
 //
-//    root: Db
-//    mode: Major
-//    relative:
-//      root: Bb
-//      mode: Minor
+//	root: Db
+//	mode: Major
+//	relative:
+//	  root: Bb
+//	  mode: Minor
 //
-// Credit
+// # Credit
 //
 // Charney Kaye
 // <hi@charneykaye.com>
@@ -112,7 +112,6 @@
 //
 // XJ Music
 // https://xj.io
-//
 package main
 
 import (
@@ -123,6 +122,7 @@ import (
 
 	"github.com/go-music-theory/music-theory/chord"
 	"github.com/go-music-theory/music-theory/key"
+	"github.com/go-music-theory/music-theory/note"
 	"github.com/go-music-theory/music-theory/scale"
 )
 
@@ -133,6 +133,13 @@ func main() {
 	app.Usage = "Notes, Keys, Chords and Scales"
 	app.Version = "0.0.4"
 	app.Authors = []cli.Author{cli.Author{Name: "Charney Kaye", Email: "hi@charneykaye.com"}}
+	app.Flags = []cli.Flag{
+		cli.Float64Flag{
+			Name:  "tuning",
+			Value: 440.0,
+			Usage: "tuning frequency for A4 in Hz (e.g., 440 for standard, 432 for Verdi)",
+		},
+	}
 	app.Commands = commands
 	app.Run(os.Args)
 }
@@ -202,6 +209,41 @@ var commands = []cli.Command{
 				// no arguments
 				cli.ShowCommandHelp(c, "key")
 			}
+		},
+	},
+
+	{ // Calculate Pitch
+		Name:        "pitch",
+		Aliases:     []string{"p"},
+		Usage:       "calculate pitch frequency in Hz for a note",
+		Description: "Calculate the pitch frequency in Hz for a note with optional tuning. Supports formats like 'A4' or 'A 4'.",
+		Action: func(c *cli.Context) {
+			args := c.Args()
+			if !args.Present() {
+				// no arguments
+				cli.ShowCommandHelp(c, "pitch")
+				return
+			}
+
+			// Get tuning from global flag
+			tuning := note.Tuning(c.GlobalFloat64("tuning"))
+
+			// Parse note - support both "A4" and "A 4" formats
+			var noteName string
+			if len(args) == 1 {
+				// Single argument like "A4"
+				noteName = args.First()
+			} else {
+				// Two or more arguments like "A 4"
+				noteName = args.Get(0) + args.Get(1)
+			}
+
+			// Create note and calculate pitch
+			n := note.Named(noteName)
+			frequency := n.Pitch(tuning)
+
+			// Format output similar to the example in the issue
+			fmt.Printf("%.2fHz\n", frequency)
 		},
 	},
 }

@@ -3,11 +3,11 @@ package chord
 
 import (
 	"fmt"
-	"testing"
 	"io/ioutil"
+	"testing"
 
-	"gopkg.in/yaml.v2"
 	"gopkg.in/stretchr/testify.v1/assert"
+	"gopkg.in/yaml.v2"
 
 	"github.com/go-music-theory/music-theory/key"
 	"github.com/go-music-theory/music-theory/note"
@@ -71,6 +71,78 @@ func TestTranspose(t *testing.T) {
 		},
 	}
 	assert.Equal(t, expectChord, actualChord.Transpose(3))
+}
+
+func TestAlternativeNotation(t *testing.T) {
+	// Test Δ for major
+	c1 := Of("CΔ7")
+	assert.Equal(t, note.C, c1.Root)
+	assert.Equal(t, note.E, c1.Tones[I3])  // major 3rd
+	assert.Equal(t, note.B, c1.Tones[I7])  // major 7th
+
+	// Test − for minor
+	c2 := Of("C−")
+	assert.Equal(t, note.C, c2.Root)
+	assert.Equal(t, note.Ds, c2.Tones[I3]) // minor 3rd
+
+	// Test + for augmented
+	c3 := Of("C+")
+	assert.Equal(t, note.C, c3.Root)
+	assert.Equal(t, note.Gs, c3.Tones[I5]) // augmented 5th
+
+	// Test ° for diminished
+	c4 := Of("C°")
+	assert.Equal(t, note.C, c4.Root)
+	assert.Equal(t, note.Ds, c4.Tones[I3]) // minor 3rd
+	assert.Equal(t, note.Fs, c4.Tones[I5]) // diminished 5th
+
+	// Test ø for half diminished
+	c5 := Of("Cø7")
+	assert.Equal(t, note.C, c5.Root)
+	assert.Equal(t, note.Ds, c5.Tones[I3])  // minor 3rd
+	assert.Equal(t, note.Fs, c5.Tones[I5])  // diminished 5th
+	assert.Equal(t, note.As, c5.Tones[I7])  // minor 7th
+}
+
+func TestPowerChord(t *testing.T) {
+	c := Of("C5")
+	assert.Equal(t, note.C, c.Root)
+	assert.Equal(t, note.G, c.Tones[I5]) // perfect 5th
+	_, hasThird := c.Tones[I3]
+	assert.False(t, hasThird) // no third in power chord
+}
+
+func TestAlteredDominant(t *testing.T) {
+	c := Of("C7alt")
+	assert.Equal(t, note.C, c.Root)
+	assert.Equal(t, note.As, c.Tones[I7]) // dominant 7th
+	assert.Equal(t, note.Cs, c.Tones[I9]) // flat 9th
+}
+
+func TestLydianChord(t *testing.T) {
+	c := Of("Clyd")
+	assert.Equal(t, note.C, c.Root)
+	assert.Equal(t, note.E, c.Tones[I3])  // major 3rd
+	assert.Equal(t, note.Fs, c.Tones[I4]) // augmented 4th (#11)
+	assert.Equal(t, note.G, c.Tones[I5])  // perfect 5th
+	assert.Equal(t, note.B, c.Tones[I7])  // major 7th
+}
+
+func TestSpecificChords(t *testing.T) {
+	// Test Mystic chord
+	c1 := Of("Cmystic")
+	assert.Equal(t, note.C, c1.Root)
+	assert.Equal(t, note.D, c1.Tones[I2])  // major 2nd
+	assert.Equal(t, note.Fs, c1.Tones[I4]) // augmented 4th
+	assert.Equal(t, note.A, c1.Tones[I6])  // major 6th
+	assert.Equal(t, note.B, c1.Tones[I7])  // major 7th
+
+	// Test Tristan chord
+	c2 := Of("Ctristan")
+	assert.Equal(t, note.C, c2.Root)
+	assert.Equal(t, note.Fs, c2.Tones[I4]) // augmented 4th
+	assert.Equal(t, note.Gs, c2.Tones[I6]) // augmented 5th
+	assert.Equal(t, note.As, c2.Tones[I7]) // minor 7th
 }
 
 //
