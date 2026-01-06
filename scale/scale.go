@@ -4,7 +4,7 @@
 //
 // A scale ordered by increasing pitch is an ascending scale, and a scale ordered by decreasing pitch is a descending scale. Some scales contain different pitches when ascending than when descending. For example, the Melodic minor scale.
 //
-// Credit
+// # Credit
 //
 // Charney Kaye
 // <hi@charneykaye.com>
@@ -12,11 +12,10 @@
 //
 // XJ Music
 // https://xj.io
-//
 package scale
 
 import (
-	"gopkg.in/music-theory.v0/note"
+	"github.com/go-music-theory/music-theory/note"
 )
 
 // Scale in a particular key

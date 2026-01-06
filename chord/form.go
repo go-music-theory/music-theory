@@ -4,6 +4,8 @@ package chord
 import (
 	//"log"
 	"regexp"
+	
+	"github.com/go-music-theory/music-theory/note"
 )
 
 // Form is identified by positive/negative regular expressions, and then adds/removes pitch classes by interval from the root of the chord.
@@ -16,6 +18,11 @@ type Form struct {
 
 // FormAdd maps an interval-from-chord-root to a +/1 semitone adjustment
 type FormAdd map[Interval]int
+
+// Special marker values for FormAdd
+const (
+	HarmonicSeventhCents = 969 // Harmonic 7th interval: 969 cents (~9.69 semitones, 31 cents flat of minor 7th)
+)
 
 // FormOmit maps an interval-from-chord-root to omit
 type FormOmit []Interval
@@ -34,8 +41,8 @@ var nExp = "[. ]*"
 
 // Regular expressions for different utilities
 var (
-	majorExp = "(M|maj|major)"
-	minorExp = "([^a-z]|^)(m|min|minor)"
+	majorExp = "(M|maj|major|Δ)"
+	minorExp = "([^a-z]|^)(m|min|minor|−)"
 
 	flatExp  = "(f|flat|b|♭)"
 	sharpExp = "(#|s|sharp)"
@@ -45,10 +52,12 @@ var (
 
 	dominantExp    = "(^|dom|dominant)"
 	nondominantExp = "(non|nondom|nondominant)"
-	diminishedExp  = "(dim|dimin|diminished)"
+	diminishedExp  = "(dim|dimin|diminished|o|°)"
 	augmentedExp   = "(aug|augment|augmented)"
 	suspendedExp   = "(sus|susp|suspend|suspended)"
 	harmonicExp    = "(harm|harmonic)"
+	halfDiminishedExp = "(ø|Ø)"
+	alteredExp     = "alt"
 )
 
 // forms is an ordered set of rules to match, and corresponding chord intervals to setup.
@@ -95,7 +104,7 @@ var forms = []Form{
 
 	Form{
 		Name: "Augmented Triad",
-		pos:  exp("^" + augmentedExp),
+		pos:  exp("^(" + augmentedExp + "|\\+)"),
 		add: FormAdd{
 			I3: 4, // major 3rd
 			I5: 8, // augmented 5th
@@ -124,6 +133,17 @@ var forms = []Form{
 	},
 
 	// Fifth
+
+	Form{
+		Name: "Power Chord",
+		pos:  exp("^5$"),
+		add: FormAdd{
+			I5: 7, // perfect 5th
+		},
+		omit: FormOmit{
+			I3, // no third
+		},
+	},
 
 	Form{
 		Name: "Omit Fifth",
@@ -184,6 +204,15 @@ var forms = []Form{
 	},
 
 	Form{
+		Name: "Altered Dominant Seventh",
+		pos:  exp(alteredExp + nExp + "7|7" + nExp + alteredExp),
+		add: FormAdd{
+			I7: 10, // dominant 7th
+			I9: 13, // flat 9th
+		},
+	},
+
+	Form{
 		Name: "Major Seventh",
 		pos:  exp(majorExp + nExp + "7"),
 		add: FormAdd{
@@ -210,7 +239,7 @@ var forms = []Form{
 
 	Form{
 		Name: "Half Diminished Seventh",
-		pos:  exp(halfExp + nExp + diminishedExp + nExp + "7"),
+		pos:  exp("(" + halfExp + nExp + diminishedExp + "|" + halfDiminishedExp + ")" + nExp + "7"),
 		add: FormAdd{
 			I3: 3,  // minor 3rd
 			I5: 6,  // diminished 5th
@@ -222,7 +251,7 @@ var forms = []Form{
 		Name: "Diminished Major Seventh",
 		pos:  exp(diminishedExp + nExp + majorExp + nExp + "7"),
 		add:  FormAdd{
-		// TODO
+			// TODO
 		},
 	},
 
@@ -230,7 +259,7 @@ var forms = []Form{
 		Name: "Augmented Major Seventh",
 		pos:  exp(augmentedExp + nExp + majorExp + nExp + "7"),
 		add:  FormAdd{
-		// TODO
+			// TODO
 		},
 	},
 
@@ -238,7 +267,7 @@ var forms = []Form{
 		Name: "Augmented Minor Seventh",
 		pos:  exp(augmentedExp + nExp + minorExp + nExp + "7"),
 		add:  FormAdd{
-		// TODO
+			// TODO
 		},
 		omit: FormOmit{},
 	},
@@ -247,8 +276,9 @@ var forms = []Form{
 		Name: "Harmonic Seventh",
 		pos:  exp(harmonicExp + nExp + "7"),
 		add: FormAdd{
-			I3: 4, // major 3rd
-			I5: 7, // perfect 5th
+			I3: 4,                    // major 3rd
+			I5: 7,                    // perfect 5th
+			I7: HarmonicSeventhCents, // harmonic 7th (special: 969 cents, not semitones)
 		},
 	},
 
@@ -415,149 +445,245 @@ var forms = []Form{
 
 	// Lydian
 
-	/*
-		Form{
-			Name: "Lydian",
-			pos: exp("lyd"),
-			// TODO
+	Form{
+		Name: "Lydian",
+		pos:  exp("lyd"),
+		add: FormAdd{
+			I3:  4,  // major 3rd
+			I4:  6,  // augmented 4th (#11)
+			I5:  7,  // perfect 5th
+			I7:  11, // major 7th
 		},
+	},
 
-		Form{
-			Name: "Omit Lydian",
-			pos: exp(omitExp+nExp+"lyd"),
-			// TODO
+	Form{
+		Name: "Omit Lydian",
+		pos:  exp(omitExp + nExp + "lyd"),
+		omit: FormOmit{
+			I4, // no 4th
 		},
-	*/
+	},
 
 	// Specific
 
-	/*	Form{
-			Name: "AlphaSpecific",
-			pos: exp("alpha"),
-			// TODO
+	Form{
+		Name: "AlphaSpecific",
+		pos: exp("alpha"),
+		add: FormAdd{
+			I3: 4, // major 3rd
+			I4: 6, // augmented 4th
+			I5: 7, // perfect 5th
+			I7: 10, // minor 7th
 		},
+	},
 
-		Form{
-			Name: "BridgeSpecific",
-			pos: exp("bridge"),
-			// TODO
+	Form{
+		Name: "BridgeSpecific",
+		pos: exp("bridge"),
+		add: FormAdd{
+			I2: 2, // major 2nd
+			I3: 4, // major 3rd
+			I5: 7, // perfect 5th
 		},
+	},
 
-		Form{
-			Name: "ComplexeSonoreSpecific",
-			pos: exp("(complexe|sonore)"),
-			// TODO
+	Form{
+		Name: "ComplexeSonoreSpecific",
+		pos: exp("(complexe|sonore)"),
+		add: FormAdd{
+			I2: 2,  // major 2nd
+			I4: 6,  // augmented 4th
+			I6: 9,  // major 6th
+			I7: 11, // major 7th
 		},
+	},
 
-		Form{
-			Name: "DreamSpecific",
-			pos: exp("dream"),
-			// TODO
+	Form{
+		Name: "DreamSpecific",
+		pos: exp("dream"),
+		add: FormAdd{
+			I5: 7,  // perfect 5th
+			I6: 8,  // minor 6th (augmented 5th)
+			I7: 10, // minor 7th
 		},
+	},
 
-		Form{
-			Name: "ElektraSpecific",
-			pos: exp("elektra"),
-			// TODO
+	Form{
+		Name: "ElektraSpecific",
+		pos: exp("elektra"),
+		add: FormAdd{
+			I3: 4,  // major 3rd
+			I5: 7,  // perfect 5th
+			I6: 9,  // major 6th
+			I7: 11, // major 7th
+			I9: 13, // flat 9th
 		},
+	},
 
-		Form{
-			Name: "FarbenSpecific",
-			pos: exp("farben"),
-			// TODO
+	Form{
+		Name: "FarbenSpecific",
+		pos: exp("farben"),
+		add: FormAdd{
+			I3: 4,  // major 3rd
+			I5: 7,  // perfect 5th
+			I6: 9,  // major 6th
+			I7: 11, // major 7th
 		},
+	},
 
-		Form{
-			Name: "GrandmotherSpecific",
-			pos: exp("grandmother"),
-			// TODO
+	Form{
+		Name: "GrandmotherSpecific",
+		pos: exp("grandmother"),
+		add: FormAdd{
+			I2: 2, // major 2nd
+			I4: 5, // perfect 4th
+			I5: 7, // perfect 5th
+			I9: 14, // major 9th
 		},
+	},
 
-		Form{
-			Name: "MagicSpecific",
-			pos: exp("magic"),
-			// TODO
+	Form{
+		Name: "MagicSpecific",
+		pos: exp("magic"),
+		add: FormAdd{
+			I2: 2,  // major 2nd
+			I4: 6,  // augmented 4th
+			I5: 7,  // perfect 5th
+			I7: 11, // major 7th
 		},
+	},
 
-		Form{
-			Name: "MµSpecific",
-			pos: exp("µ"),
-			// TODO
+	Form{
+		Name: "MµSpecific",
+		pos: exp("µ"),
+		add: FormAdd{
+			I3: 4, // major 3rd
+			I4: 6, // augmented 4th
+			I5: 7, // perfect 5th
 		},
+	},
 
-		Form{
-			Name: "MysticSpecific",
-			pos: exp("mystic"),
-			// TODO
+	Form{
+		Name: "MysticSpecific",
+		pos: exp("mystic"),
+		add: FormAdd{
+			I2: 2,  // major 2nd
+			I4: 6,  // augmented 4th
+			I6: 9,  // major 6th
+			I7: 11, // major 7th
 		},
+	},
 
-		Form{
-			Name: "NorthernLightsSpecific",
-			pos: exp("northern" + nExp + "light"),
-			// TODO
+	Form{
+		Name: "NorthernLightsSpecific",
+		pos: exp("northern" + nExp + "light"),
+		add: FormAdd{
+			I2: 1, // minor 2nd
+			I3: 4, // major 3rd
+			I5: 6, // diminished 5th
+			I6: 8, // augmented 5th
 		},
+	},
 
-		Form{
-			Name: "PetrushkaSpecific",
-			pos: exp("petrush"),
-			// TODO
+	Form{
+		Name: "PetrushkaSpecific",
+		pos: exp("petrush"),
+		add: FormAdd{
+			I3: 4, // major 3rd
+			I4: 6, // augmented 4th
+			I5: 7, // perfect 5th
 		},
+	},
 
-		Form{
-			Name: "PsalmsSpecific",
-			pos: exp("psalm"),
-			// TODO
+	Form{
+		Name: "PsalmsSpecific",
+		pos: exp("psalm"),
+		add: FormAdd{
+			I2: 2, // major 2nd
+			I3: 3, // minor 3rd
+			I4: 5, // perfect 4th
 		},
+	},
 
-		Form{
-			Name: "SoWhatSpecific",
-			pos: exp("so" + nExp + "what"),
-			// TODO
+	Form{
+		Name: "SoWhatSpecific",
+		pos: exp("so" + nExp + "what"),
+		add: FormAdd{
+			I4: 5,  // perfect 4th
+			I5: 7,  // perfect 5th
+			I7: 10, // minor 7th
 		},
+	},
 
-		Form{
-			Name: "TristanSpecific",
-			pos: exp("tristan"),
-			// TODO
+	Form{
+		Name: "TristanSpecific",
+		pos: exp("tristan"),
+		add: FormAdd{
+			I4: 6,  // augmented 4th
+			I6: 8,  // augmented 5th
+			I7: 10, // minor 7th
 		},
+	},
 
-		Form{
-			Name: "VienneseTrichordSpecific",
-			pos: exp("viennese" + nExp + "trichord"),
-			// TODO
+	Form{
+		Name: "VienneseTrichordSpecific",
+		pos: exp("viennese" + nExp + "trichord"),
+		add: FormAdd{
+			I2: 1, // minor 2nd
+			I3: 3, // minor 3rd
 		},
+	},
 
-		// General
+	// General
 
-		Form{
-			Name: "MixedIntervalGeneral",
-			pos: exp("mixed" + nExp + "interval"),
-			// TODO
+	Form{
+		Name: "MixedIntervalGeneral",
+		pos: exp("mixed" + nExp + "interval"),
+		add: FormAdd{
+			I2: 2, // major 2nd
+			I3: 4, // major 3rd
+			I4: 5, // perfect 4th
+			I5: 7, // perfect 5th
 		},
+	},
 
-		Form{
-			Name: "SecundalGeneral",
-			pos: exp("secundal"),
-			// TODO
+	Form{
+		Name: "SecundalGeneral",
+		pos: exp("secundal"),
+		add: FormAdd{
+			I2: 2, // major 2nd
+			I4: 4, // major 3rd (secundal stacking)
 		},
+	},
 
-		Form{
-			Name: "TertianGeneral",
-			pos: exp("tertian"),
-			// TODO
+	Form{
+		Name: "TertianGeneral",
+		pos: exp("tertian"),
+		add: FormAdd{
+			I3: 4, // major 3rd
+			I5: 7, // perfect 5th
 		},
+	},
 
-		Form{
-			Name: "QuartalGeneral",
-			pos: exp("quartal"),
-			// TODO
+	Form{
+		Name: "QuartalGeneral",
+		pos: exp("quartal"),
+		add: FormAdd{
+			I4: 5,  // perfect 4th
+			I5: 10, // minor 7th (quartal stacking)
 		},
+	},
 
-		Form{
-			Name: "SyntheticChordGeneral",
-			pos: exp("synthetic"),
-			// TODO
-		},*/
+	Form{
+		Name: "SyntheticChordGeneral",
+		pos: exp("synthetic"),
+		add: FormAdd{
+			I2: 2, // major 2nd
+			I3: 4, // major 3rd
+			I5: 7, // perfect 5th
+			I6: 9, // major 6th
+		},
+	},
 
 }
 
@@ -597,10 +723,53 @@ func (this *Chord) parseForms(name string) {
 
 func (this *Chord) applyForm(f Form) (toDelete []Interval) {
 	for i, c := range f.add {
-		this.Tones[i], _ = this.Root.Step(c)
+		// Special handling for harmonic seventh (HarmonicSeventhCents marker)
+		if c == HarmonicSeventhCents {
+			// Harmonic seventh is approximately 969 cents (~9.69 semitones)
+			// Use custom pitch class for this microtonal interval
+			this.Tones[i] = calculateHarmonicSeventh(this.Root)
+		} else {
+			this.Tones[i], _ = this.Root.Step(c)
+		}
 	}
 	for _, t := range f.omit {
 		toDelete = append(toDelete, t)
 	}
 	return
+}
+
+// calculateHarmonicSeventh returns the harmonic seventh pitch class for any root
+// The harmonic seventh is approximately 969 cents above the root (31 cents flat of minor 7th)
+func calculateHarmonicSeventh(root note.Class) note.Class {
+	// Map each root to its corresponding harmonic seventh pitch class
+	switch root {
+	case note.C:
+		return note.Ch7
+	case note.Cs:
+		return note.Csh7
+	case note.D:
+		return note.Dh7
+	case note.Ds:
+		return note.Dsh7
+	case note.E:
+		return note.Eh7
+	case note.F:
+		return note.Fh7
+	case note.Fs:
+		return note.Fsh7
+	case note.G:
+		return note.Gh7
+	case note.Gs:
+		return note.Gsh7
+	case note.A:
+		return note.Ah7
+	case note.As:
+		return note.Ash7
+	case note.B:
+		return note.Bh7
+	default:
+		// Fallback to closest chromatic approximation (10 semitones)
+		result, _ := root.Step(10)
+		return result
+	}
 }

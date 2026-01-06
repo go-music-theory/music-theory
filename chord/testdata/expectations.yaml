@@ -364,3 +364,35 @@ chords:
       3: E
       5: Gb
       7: Bb
+
+  C harmonic 7:
+    root: C
+    tones:
+      1: C
+      3: E
+      5: G
+      7: A♮7
+
+  G harmonic 7:
+    root: G
+    tones:
+      1: G
+      3: B
+      5: D
+      7: E♮7
+
+  D harmonic 7:
+    root: D
+    tones:
+      1: D
+      3: F#
+      5: A
+      7: B♮7
+
+  F# harmonic 7:
+    root: Gb
+    tones:
+      1: Gb
+      3: Bb
+      5: Db
+      7: E♭7

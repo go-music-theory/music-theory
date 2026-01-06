@@ -4,7 +4,7 @@ package chord
 import (
 	"testing"
 
-	"gopkg.in/music-theory.v0/note"
+	"github.com/go-music-theory/music-theory/note"
 	"gopkg.in/stretchr/testify.v1/assert"
 )
 

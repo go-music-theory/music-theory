@@ -9,7 +9,7 @@ import (
 	"gopkg.in/yaml.v2"
 
 	"fmt"
-	"gopkg.in/music-theory.v0/note"
+	"github.com/go-music-theory/music-theory/note"
 )
 
 func TestKeys(t *testing.T) {

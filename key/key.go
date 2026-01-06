@@ -2,7 +2,7 @@
 //
 // https://en.wikipedia.org/wiki/Key_(music)
 //
-// Credit
+// # Credit
 //
 // Charney Kaye
 // <hi@charneykaye.com>
@@ -10,11 +10,10 @@
 //
 // XJ Music
 // https://xj.io
-//
 package key
 
 import (
-	"gopkg.in/music-theory.v0/note"
+	"github.com/go-music-theory/music-theory/note"
 )
 
 // Of a particular key, e.g. Of("C minor 7")

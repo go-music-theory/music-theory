@@ -2,7 +2,7 @@
 //
 // https://en.wikipedia.org/wiki/Chord_(music)
 //
-// Credit
+// # Credit
 //
 // Charney Kaye
 // <hi@charneykaye.com>
@@ -10,11 +10,10 @@
 //
 // XJ Music
 // https://xj.io
-//
 package chord
 
 import (
-	"gopkg.in/music-theory.v0/note"
+	"github.com/go-music-theory/music-theory/note"
 )
 
 // Chord in a particular key
