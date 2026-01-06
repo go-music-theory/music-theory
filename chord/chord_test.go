@@ -77,8 +77,8 @@ func TestAlternativeNotation(t *testing.T) {
 	// Test Δ for major
 	c1 := Of("CΔ7")
 	assert.Equal(t, note.C, c1.Root)
-	assert.Equal(t, note.E, c1.Tones[I3])  // major 3rd
-	assert.Equal(t, note.B, c1.Tones[I7])  // major 7th
+	assert.Equal(t, note.E, c1.Tones[I3]) // major 3rd
+	assert.Equal(t, note.B, c1.Tones[I7]) // major 7th
 
 	// Test − for minor
 	c2 := Of("C−")
@@ -99,9 +99,9 @@ func TestAlternativeNotation(t *testing.T) {
 	// Test ø for half diminished
 	c5 := Of("Cø7")
 	assert.Equal(t, note.C, c5.Root)
-	assert.Equal(t, note.Ds, c5.Tones[I3])  // minor 3rd
-	assert.Equal(t, note.Fs, c5.Tones[I5])  // diminished 5th
-	assert.Equal(t, note.As, c5.Tones[I7])  // minor 7th
+	assert.Equal(t, note.Ds, c5.Tones[I3]) // minor 3rd
+	assert.Equal(t, note.Fs, c5.Tones[I5]) // diminished 5th
+	assert.Equal(t, note.As, c5.Tones[I7]) // minor 7th
 }
 
 func TestPowerChord(t *testing.T) {

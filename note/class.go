@@ -18,7 +18,7 @@ const (
 	A
 	As
 	B
-	
+
 	// Microtonal/custom pitches (not part of 12-tone chromatic scale)
 	// Harmonic seventh pitches - approximately 969 cents above their respective roots (31 cents below the minor 7th)
 	// Notation: The '♮7' suffix is a custom notation indicating "natural harmonic 7th" to distinguish
@@ -241,19 +241,19 @@ type step struct {
 
 var (
 	stepUp = map[Class]step{
-		Nil:  step{Nil, 0},
-		C:    step{Cs, 0},
-		Cs:   step{D, 0},
-		D:    step{Ds, 0},
-		Ds:   step{E, 0},
-		E:    step{F, 0},
-		F:    step{Fs, 0},
-		Fs:   step{G, 0},
-		G:    step{Gs, 0},
-		Gs:   step{A, 0},
-		A:    step{As, 0},
-		As:   step{B, 0},
-		B:    step{C, 1},
+		Nil: step{Nil, 0},
+		C:   step{Cs, 0},
+		Cs:  step{D, 0},
+		D:   step{Ds, 0},
+		Ds:  step{E, 0},
+		E:   step{F, 0},
+		F:   step{Fs, 0},
+		Fs:  step{G, 0},
+		G:   step{Gs, 0},
+		Gs:  step{A, 0},
+		A:   step{As, 0},
+		As:  step{B, 0},
+		B:   step{C, 1},
 		// Harmonic seventh pitches step up to their closest chromatic neighbor
 		Ch7:  step{As, 0},
 		Csh7: step{B, 0},
@@ -269,19 +269,19 @@ var (
 		Bh7:  step{A, 0},
 	}
 	stepDown = map[Class]step{
-		Nil:  step{Nil, 0},
-		C:    step{B, -1},
-		Cs:   step{C, 0},
-		D:    step{Cs, 0},
-		Ds:   step{D, 0},
-		E:    step{Ds, 0},
-		F:    step{E, 0},
-		Fs:   step{F, 0},
-		G:    step{Fs, 0},
-		Gs:   step{G, 0},
-		A:    step{Gs, 0},
-		As:   step{A, 0},
-		B:    step{As, 0},
+		Nil: step{Nil, 0},
+		C:   step{B, -1},
+		Cs:  step{C, 0},
+		D:   step{Cs, 0},
+		Ds:  step{D, 0},
+		E:   step{Ds, 0},
+		F:   step{E, 0},
+		Fs:  step{F, 0},
+		G:   step{Fs, 0},
+		Gs:  step{G, 0},
+		A:   step{Gs, 0},
+		As:  step{A, 0},
+		B:   step{As, 0},
 		// Harmonic seventh pitches step down to their closest chromatic neighbor
 		Ch7:  step{A, 0},
 		Csh7: step{As, 0},

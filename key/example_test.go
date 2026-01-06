@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/go-music-theory/music-theory/key"
+	"github.com/go-music-theory/music-theory/note"
 )
 
 // Example demonstrates creating a key by name
@@ -46,4 +47,21 @@ func ExampleKey_RelativeMinor() {
 		rel.Root.String(rel.AdjSymbol), rel.Mode)
 
 	// Output: C Major -> A Minor
+}
+
+// ExampleFindKey demonstrates the Krumhansl-Schmuckler key-finding algorithm
+func ExampleFindKey() {
+	// Identify the key from a C major scale
+	notes := []note.Class{note.C, note.D, note.E, note.F, note.G, note.A, note.B}
+	k := key.FindKey(notes)
+	fmt.Printf("%s %s\n", k.Root.String(k.AdjSymbol), k.Mode)
+
+	// Identify the key from musical phrase with emphasis on the tonic
+	notes = []note.Class{note.A, note.A, note.C, note.E, note.A, note.G, note.F, note.E}
+	k = key.FindKey(notes)
+	fmt.Printf("%s %s\n", k.Root.String(k.AdjSymbol), k.Mode)
+
+	// Output:
+	// C Major
+	// A Minor
 }
