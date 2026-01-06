@@ -4,7 +4,7 @@ package chord
 import (
 	//"log"
 	"regexp"
-	
+
 	"github.com/go-music-theory/music-theory/note"
 )
 
@@ -50,22 +50,22 @@ var (
 
 	omitExp = "(omit|\\-)"
 
-	dominantExp    = "(^|dom|dominant)"
-	nondominantExp = "(non|nondom|nondominant)"
-	diminishedExp  = "(dim|dimin|diminished|o|°)"
-	augmentedExp   = "(aug|augment|augmented)"
-	suspendedExp   = "(sus|susp|suspend|suspended)"
-	harmonicExp    = "(harm|harmonic)"
+	dominantExp       = "(^|dom|dominant)"
+	nondominantExp    = "(non|nondom|nondominant)"
+	diminishedExp     = "(dim|dimin|diminished|o|°)"
+	augmentedExp      = "(aug|augment|augmented)"
+	suspendedExp      = "(sus|susp|suspend|suspended)"
+	harmonicExp       = "(harm|harmonic)"
 	halfDiminishedExp = "(ø|Ø)"
-	alteredExp     = "alt"
+	alteredExp        = "alt"
 )
 
 // Regular expressions for interval modifiers (compiled once at package level)
 var (
-	sharpIntervalExp  = regexp.MustCompile(`#\s*(\d+)`)
-	flatIntervalExp   = regexp.MustCompile(`(♭|b)\s*(\d+)`)
-	flatFifthPattern  = regexp.MustCompile(`(f|flat|b|♭)[. ]*5`)
-	sharpNinthPattern = regexp.MustCompile(`(#|s|sharp)[. ]*9`)
+	sharpIntervalExp   = regexp.MustCompile(`#\s*(\d+)`)
+	flatIntervalExp    = regexp.MustCompile(`(♭|b)\s*(\d+)`)
+	flatFifthPattern   = regexp.MustCompile(`(f|flat|b|♭)[. ]*5`)
+	sharpNinthPattern  = regexp.MustCompile(`(#|s|sharp)[. ]*9`)
 	flatSeventhPattern = regexp.MustCompile(`(b|♭)\s*7`)
 )
 
@@ -458,10 +458,10 @@ var forms = []Form{
 		Name: "Lydian",
 		pos:  exp("lyd"),
 		add: FormAdd{
-			I3:  4,  // major 3rd
-			I4:  6,  // augmented 4th (#11)
-			I5:  7,  // perfect 5th
-			I7:  11, // major 7th
+			I3: 4,  // major 3rd
+			I4: 6,  // augmented 4th (#11)
+			I5: 7,  // perfect 5th
+			I7: 11, // major 7th
 		},
 	},
 
@@ -477,18 +477,18 @@ var forms = []Form{
 
 	Form{
 		Name: "AlphaSpecific",
-		pos: exp("alpha"),
+		pos:  exp("alpha"),
 		add: FormAdd{
-			I3: 4, // major 3rd
-			I4: 6, // augmented 4th
-			I5: 7, // perfect 5th
+			I3: 4,  // major 3rd
+			I4: 6,  // augmented 4th
+			I5: 7,  // perfect 5th
 			I7: 10, // minor 7th
 		},
 	},
 
 	Form{
 		Name: "BridgeSpecific",
-		pos: exp("bridge"),
+		pos:  exp("bridge"),
 		add: FormAdd{
 			I2: 2, // major 2nd
 			I3: 4, // major 3rd
@@ -498,7 +498,7 @@ var forms = []Form{
 
 	Form{
 		Name: "ComplexeSonoreSpecific",
-		pos: exp("(complexe|sonore)"),
+		pos:  exp("(complexe|sonore)"),
 		add: FormAdd{
 			I2: 2,  // major 2nd
 			I4: 6,  // augmented 4th
@@ -509,7 +509,7 @@ var forms = []Form{
 
 	Form{
 		Name: "DreamSpecific",
-		pos: exp("dream"),
+		pos:  exp("dream"),
 		add: FormAdd{
 			I5: 7,  // perfect 5th
 			I6: 8,  // minor 6th (augmented 5th)
@@ -519,7 +519,7 @@ var forms = []Form{
 
 	Form{
 		Name: "ElektraSpecific",
-		pos: exp("elektra"),
+		pos:  exp("elektra"),
 		add: FormAdd{
 			I3: 4,  // major 3rd
 			I5: 7,  // perfect 5th
@@ -531,7 +531,7 @@ var forms = []Form{
 
 	Form{
 		Name: "FarbenSpecific",
-		pos: exp("farben"),
+		pos:  exp("farben"),
 		add: FormAdd{
 			I3: 4,  // major 3rd
 			I5: 7,  // perfect 5th
@@ -542,18 +542,18 @@ var forms = []Form{
 
 	Form{
 		Name: "GrandmotherSpecific",
-		pos: exp("grandmother"),
+		pos:  exp("grandmother"),
 		add: FormAdd{
-			I2: 2, // major 2nd
-			I4: 5, // perfect 4th
-			I5: 7, // perfect 5th
+			I2: 2,  // major 2nd
+			I4: 5,  // perfect 4th
+			I5: 7,  // perfect 5th
 			I9: 14, // major 9th
 		},
 	},
 
 	Form{
 		Name: "MagicSpecific",
-		pos: exp("magic"),
+		pos:  exp("magic"),
 		add: FormAdd{
 			I2: 2,  // major 2nd
 			I4: 6,  // augmented 4th
@@ -564,7 +564,7 @@ var forms = []Form{
 
 	Form{
 		Name: "MµSpecific",
-		pos: exp("µ"),
+		pos:  exp("µ"),
 		add: FormAdd{
 			I3: 4, // major 3rd
 			I4: 6, // augmented 4th
@@ -574,7 +574,7 @@ var forms = []Form{
 
 	Form{
 		Name: "MysticSpecific",
-		pos: exp("mystic"),
+		pos:  exp("mystic"),
 		add: FormAdd{
 			I2: 2,  // major 2nd
 			I4: 6,  // augmented 4th
@@ -585,7 +585,7 @@ var forms = []Form{
 
 	Form{
 		Name: "NorthernLightsSpecific",
-		pos: exp("northern" + nExp + "light"),
+		pos:  exp("northern" + nExp + "light"),
 		add: FormAdd{
 			I2: 1, // minor 2nd
 			I3: 4, // major 3rd
@@ -596,7 +596,7 @@ var forms = []Form{
 
 	Form{
 		Name: "PetrushkaSpecific",
-		pos: exp("petrush"),
+		pos:  exp("petrush"),
 		add: FormAdd{
 			I3: 4, // major 3rd
 			I4: 6, // augmented 4th
@@ -606,7 +606,7 @@ var forms = []Form{
 
 	Form{
 		Name: "PsalmsSpecific",
-		pos: exp("psalm"),
+		pos:  exp("psalm"),
 		add: FormAdd{
 			I2: 2, // major 2nd
 			I3: 3, // minor 3rd
@@ -616,7 +616,7 @@ var forms = []Form{
 
 	Form{
 		Name: "SoWhatSpecific",
-		pos: exp("so" + nExp + "what"),
+		pos:  exp("so" + nExp + "what"),
 		add: FormAdd{
 			I4: 5,  // perfect 4th
 			I5: 7,  // perfect 5th
@@ -626,7 +626,7 @@ var forms = []Form{
 
 	Form{
 		Name: "TristanSpecific",
-		pos: exp("tristan"),
+		pos:  exp("tristan"),
 		add: FormAdd{
 			I4: 6,  // augmented 4th
 			I6: 8,  // augmented 5th
@@ -636,7 +636,7 @@ var forms = []Form{
 
 	Form{
 		Name: "VienneseTrichordSpecific",
-		pos: exp("viennese" + nExp + "trichord"),
+		pos:  exp("viennese" + nExp + "trichord"),
 		add: FormAdd{
 			I2: 1, // minor 2nd
 			I3: 3, // minor 3rd
@@ -647,7 +647,7 @@ var forms = []Form{
 
 	Form{
 		Name: "MixedIntervalGeneral",
-		pos: exp("mixed" + nExp + "interval"),
+		pos:  exp("mixed" + nExp + "interval"),
 		add: FormAdd{
 			I2: 2, // major 2nd
 			I3: 4, // major 3rd
@@ -658,7 +658,7 @@ var forms = []Form{
 
 	Form{
 		Name: "SecundalGeneral",
-		pos: exp("secundal"),
+		pos:  exp("secundal"),
 		add: FormAdd{
 			I2: 2, // major 2nd
 			I4: 4, // major 3rd (secundal stacking)
@@ -667,7 +667,7 @@ var forms = []Form{
 
 	Form{
 		Name: "TertianGeneral",
-		pos: exp("tertian"),
+		pos:  exp("tertian"),
 		add: FormAdd{
 			I3: 4, // major 3rd
 			I5: 7, // perfect 5th
@@ -676,7 +676,7 @@ var forms = []Form{
 
 	Form{
 		Name: "QuartalGeneral",
-		pos: exp("quartal"),
+		pos:  exp("quartal"),
 		add: FormAdd{
 			I4: 5,  // perfect 4th
 			I5: 10, // minor 7th (quartal stacking)
@@ -685,7 +685,7 @@ var forms = []Form{
 
 	Form{
 		Name: "SyntheticChordGeneral",
-		pos: exp("synthetic"),
+		pos:  exp("synthetic"),
 		add: FormAdd{
 			I2: 2, // major 2nd
 			I3: 4, // major 3rd
@@ -693,7 +693,6 @@ var forms = []Form{
 			I6: 9, // major 6th
 		},
 	},
-
 }
 
 func exp(s string) *regexp.Regexp {
@@ -727,10 +726,10 @@ func (this *Chord) parseForms(name string) {
 	for _, t := range toDelete {
 		delete(this.Tones, t)
 	}
-	
+
 	// After processing all forms, apply sharp/flat interval modifiers
 	this.applyIntervalModifiers(name)
-	
+
 	return
 }
 
@@ -760,12 +759,12 @@ func (this *Chord) applyIntervalModifiers(name string) {
 	// Sharp Ninth handles: #9, sharp 9, s9
 	// Add Seventh handles: 7 (and this includes when preceded by b, as in b7)
 	// So we should NOT process these if they match the form patterns
-	
+
 	// Check if patterns that existing forms handle are present
 	skipFlatFifth := flatFifthPattern.MatchString(name)
 	skipSharpNinth := sharpNinthPattern.MatchString(name)
 	skipFlatSeventh := flatSeventhPattern.MatchString(name)
-	
+
 	// Find all sharp intervals
 	sharpMatches := sharpIntervalExp.FindAllStringSubmatch(name, -1)
 	for _, match := range sharpMatches {
@@ -779,8 +778,8 @@ func (this *Chord) applyIntervalModifiers(name string) {
 			}
 		}
 	}
-	
-	// Find all flat intervals  
+
+	// Find all flat intervals
 	flatMatches := flatIntervalExp.FindAllStringSubmatch(name, -1)
 	for _, match := range flatMatches {
 		if len(match) >= 3 {
