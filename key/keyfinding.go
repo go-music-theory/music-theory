@@ -163,20 +163,9 @@ func classToSemitone(c note.Class) int {
 func sharpOrFlat(root note.Class) note.AdjSymbol {
 	switch root {
 	case note.Cs, note.Ds, note.Fs, note.Gs, note.As:
-		// These pitch classes can be represented as either sharps or flats
-		// For simplicity, we'll use flat notation for the common flat keys
-		switch root {
-		case note.Cs: // Db
-			return note.Flat
-		case note.Ds: // Eb
-			return note.Flat
-		case note.Fs: // Gb
-			return note.Flat
-		case note.Gs: // Ab
-			return note.Flat
-		case note.As: // Bb
-			return note.Flat
-		}
+		// These pitch classes are black keys and can be represented as either sharps or flats
+		// We use flat notation for the common flat keys (Db, Eb, Gb, Ab, Bb)
+		return note.Flat
 	}
 	return note.Sharp
 }
