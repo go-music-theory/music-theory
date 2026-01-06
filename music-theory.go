@@ -219,33 +219,31 @@ var commands = []cli.Command{
 		Description: "Calculate the pitch frequency in Hz for a note with optional tuning. Supports formats like 'A4' or 'A 4'.",
 		Action: func(c *cli.Context) {
 			args := c.Args()
-			if args.Present() {
-				// Get tuning from global flag
-				tuning := note.Tuning(c.GlobalFloat64("tuning"))
-
-				// Parse note - support both "A4" and "A 4" formats
-				var noteName string
-				if len(args) == 1 {
-					// Single argument like "A4"
-					noteName = args.First()
-				} else if len(args) >= 2 {
-					// Two arguments like "A 4"
-					noteName = args.Get(0) + args.Get(1)
-				} else {
-					cli.ShowCommandHelp(c, "pitch")
-					return
-				}
-
-				// Create note and calculate pitch
-				n := note.Named(noteName)
-				frequency := n.Pitch(tuning)
-
-				// Format output similar to the example in the issue
-				fmt.Printf("%.2fHz\n", frequency)
-			} else {
+			if !args.Present() {
 				// no arguments
 				cli.ShowCommandHelp(c, "pitch")
+				return
 			}
+
+			// Get tuning from global flag
+			tuning := note.Tuning(c.GlobalFloat64("tuning"))
+
+			// Parse note - support both "A4" and "A 4" formats
+			var noteName string
+			if len(args) == 1 {
+				// Single argument like "A4"
+				noteName = args.First()
+			} else {
+				// Two or more arguments like "A 4"
+				noteName = args.Get(0) + args.Get(1)
+			}
+
+			// Create note and calculate pitch
+			n := note.Named(noteName)
+			frequency := n.Pitch(tuning)
+
+			// Format output similar to the example in the issue
+			fmt.Printf("%.2fHz\n", frequency)
 		},
 	},
 }
