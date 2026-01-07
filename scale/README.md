@@ -1,6 +1,6 @@
 # Scale
 
-[![GoDoc](https://godoc.org/gopkg.in/music-theory.v0/scale?status.svg)](https://godoc.org/gopkg.in/music-theory.v0/scale) [![Coverage](https://img.shields.io/badge/coverage-100%-brightgreen.svg?style=flat)](https://gocover.io/gopkg.in/music-theory.v0/scale)
+[![GoDoc](https://godoc.org/gopkg.in/music-theory.v0/scale?status.svg)](https://godoc.org/gopkg.in/music-theory.v0/scale) [![Coverage](https://github.com/go-music-theory/music-theory/wiki/coverage.svg)](https://raw.githack.com/wiki/go-music-theory/music-theory/coverage.html)
 
 #### A model of a musical scale.
 
