@@ -65,3 +65,41 @@ func ExampleChord_Transpose() {
 	// Original: C
 	// Transposed: D
 }
+
+// ExampleOf_slashChord demonstrates creating slash chords
+func ExampleOf_slashChord() {
+	// Slash chord: C major with E in bass (first inversion)
+	c := chord.Of("C/E")
+	fmt.Printf("Root: %s\n", c.Root.String(c.AdjSymbol))
+	fmt.Printf("Bass: %s\n", c.Bass.String(c.AdjSymbol))
+
+	notes := c.Notes()
+	fmt.Printf("Notes (bass first): ")
+	for i, n := range notes {
+		if i > 0 {
+			fmt.Printf(", ")
+		}
+		fmt.Printf("%s", n.Class.String(note.Sharp))
+	}
+	fmt.Println()
+
+	// Output:
+	// Root: C
+	// Bass: E
+	// Notes (bass first): E, C, G
+}
+
+// ExampleChord_Transpose_slashChord demonstrates transposing a slash chord
+func ExampleChord_Transpose_slashChord() {
+	// Create a slash chord
+	c := chord.Of("C/E")
+
+	// Transpose up by 2 semitones (C/E -> D/F#)
+	d := c.Transpose(2)
+	fmt.Printf("Original: %s/%s\n", c.Root.String(c.AdjSymbol), c.Bass.String(c.AdjSymbol))
+	fmt.Printf("Transposed: %s/%s\n", d.Root.String(d.AdjSymbol), d.Bass.String(d.AdjSymbol))
+
+	// Output:
+	// Original: C/E
+	// Transposed: D/F#
+}
