@@ -113,10 +113,25 @@ func TestPowerChord(t *testing.T) {
 }
 
 func TestAlteredDominant(t *testing.T) {
+	// Test with "7alt" notation
 	c := Of("C7alt")
 	assert.Equal(t, note.C, c.Root)
-	assert.Equal(t, note.As, c.Tones[I7]) // dominant 7th
-	assert.Equal(t, note.Cs, c.Tones[I9]) // flat 9th
+	assert.Equal(t, note.E, c.Tones[I3])   // major 3rd
+	assert.Equal(t, note.Fs, c.Tones[I5])  // flat 5th (diminished 5th)
+	assert.Equal(t, note.Gs, c.Tones[I6])  // sharp 5th (augmented 5th)
+	assert.Equal(t, note.As, c.Tones[I7])  // dominant 7th
+	assert.Equal(t, note.Cs, c.Tones[I9])  // flat 9th
+	assert.Equal(t, note.Ds, c.Tones[I10]) // sharp 9th
+
+	// Test with just "alt" notation
+	c2 := Of("Calt")
+	assert.Equal(t, note.C, c2.Root)
+	assert.Equal(t, note.E, c2.Tones[I3])   // major 3rd
+	assert.Equal(t, note.Fs, c2.Tones[I5])  // flat 5th (diminished 5th)
+	assert.Equal(t, note.Gs, c2.Tones[I6])  // sharp 5th (augmented 5th)
+	assert.Equal(t, note.As, c2.Tones[I7])  // dominant 7th
+	assert.Equal(t, note.Cs, c2.Tones[I9])  // flat 9th
+	assert.Equal(t, note.Ds, c2.Tones[I10]) // sharp 9th
 }
 
 func TestLydianChord(t *testing.T) {

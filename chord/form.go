@@ -69,6 +69,16 @@ var (
 	flatSeventhPattern = regexp.MustCompile(`(b|♭)\s*7`)
 )
 
+// Common FormAdd for altered dominant chords
+var alteredDominantFormAdd = FormAdd{
+	I3:  4,  // major 3rd
+	I5:  6,  // flat 5th (diminished 5th)
+	I6:  8,  // sharp 5th (augmented 5th / flat 13th)
+	I7:  10, // dominant 7th
+	I9:  13, // flat 9th
+	I10: 15, // sharp 9th
+}
+
 // forms is an ordered set of rules to match, and corresponding chord intervals to setup.
 var forms = []Form{
 
@@ -215,10 +225,13 @@ var forms = []Form{
 	Form{
 		Name: "Altered Dominant Seventh",
 		pos:  exp(alteredExp + nExp + "7|7" + nExp + alteredExp),
-		add: FormAdd{
-			I7: 10, // dominant 7th
-			I9: 13, // flat 9th
-		},
+		add:  alteredDominantFormAdd,
+	},
+
+	Form{
+		Name: "Altered Dominant",
+		pos:  exp("^" + alteredExp + "([^a-z]|$)"),
+		add:  alteredDominantFormAdd,
 	},
 
 	Form{
