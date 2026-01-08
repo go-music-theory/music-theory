@@ -40,5 +40,5 @@ jobs:
         run: go test -v -coverprofile=coverage.out -covermode=atomic ./...
 
       - name: Update coverage report
-        if: matrix.go-version == '1.22'
+        if: matrix.go-version == '1.22' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: ncruces/go-coverage-report@main
