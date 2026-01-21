@@ -5,6 +5,8 @@
 
 [gopkg.in/music-theory.v0](https://gopkg.in/music-theory.v0)
 
+[https://github.com/go-music-theory/music-theory](https://github.com/go-music-theory/music-theory)
+
 ## Music theory models in Go
 
 There's an example command-line utility `music-theory.go` to demo the libraries, with a `bin/` wrapper.
