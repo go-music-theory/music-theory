@@ -1,11 +1,12 @@
-[![Tests](https://github.com/go-music-theory/music-theory/actions/workflows/test.yml/badge.svg)](https://github.com/go-music-theory/music-theory/actions/workflows/test.yml) 
+[![CI](https://github.com/go-music-theory/music-theory/actions/workflows/ci.yml/badge.svg)](https://github.com/go-music-theory/music-theory/actions/workflows/ci.yml) 
 [![GoDoc](https://godoc.org/gopkg.in/music-theory.v0?status.svg)](https://godoc.org/gopkg.in/music-theory.v0) 
 [![Go Report Card](https://goreportcard.com/badge/gopkg.in/music-theory.v0)](https://goreportcard.com/report/gopkg.in/music-theory.v0) 
 [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome)
 
-[gopkg.in/music-theory.v0](https://gopkg.in/music-theory.v0)
-
-[https://github.com/go-music-theory/music-theory](https://github.com/go-music-theory/music-theory)
+[Forge link](https://github.com/go-music-theory/music-theory) |
+[pkg.go.dev](https://pkg.go.dev/github.com/go-music-theory/music-theory) |
+[goreportcard.com](https://goreportcard.com/report/github.com/go-music-theory/music-theory) |
+[Coverage](https://app.codecov.io/github/go-music-theory/music-theory)
 
 ## Music theory models in Go
 
