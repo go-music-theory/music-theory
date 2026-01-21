@@ -1,4 +1,4 @@
-name: Tests
+name: Continuous Integration
 
 on:
   push:
@@ -42,3 +42,8 @@ jobs:
       - name: Update coverage report
         if: matrix.go-version == '1.22' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: ncruces/go-coverage-report@main
+        
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
