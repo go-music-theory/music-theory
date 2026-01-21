@@ -115,7 +115,7 @@ To determine a key:
 
 ##### Credit
 
-[Charney Kaye](https://charneykaye.com)
+[Nick Charney Kaye](https://charneykaye.com)
 
 [XJ Music](https://xj.io)
 
